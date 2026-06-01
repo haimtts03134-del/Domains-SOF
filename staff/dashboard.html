@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý bò hiện đại</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="common-style.css" />
+    <link rel="stylesheet" href="staff-style.css" />
+    <script src="data.js"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      
+      <aside class="sidebar page-card">
+        <div class="logo">ROYAL COW FARM</div>
+        <nav class="nav-list" aria-label="Điều hướng Staff">
+          <a class="nav-item active" href="#" data-page="dashboard">
+            <span class="icon">🏠</span>
+            <span>Dashboard</span>
+          </a>
+          <a class="nav-item" href="#" data-page="cattle">
+            <span class="icon">🐄</span>
+            <span>Đàn bò</span>
+          </a>
+          <a class="nav-item" href="#" data-page="vaccine">
+            <span class="icon">💉</span>
+            <span>Vắc xin</span>
+          </a>
+          <a class="nav-item" href="#" data-page="orders">
+            <span class="icon">📦</span>
+            <span>Đơn hàng</span>
+          </a>
+          <a class="nav-item" href="#" data-page="partners">
+            <span class="icon">🤝</span>
+            <span>Đối tác</span>
+          </a>
+        </nav>
+      </aside>
+
+      <main class="page-grid">
+        
+        <header class="topbar">
+          <div class="flex flex-col">
+            <p class="role-pill w-max">Vai trò: Staff</p>
+            <h1 class="brand-title">Quản lý bò hiện đại</h1>
+          </div>
+
+          <div class="topbar-right">
+            <div class="search-wrapper">
+              <input type="search" placeholder="Tìm nhanh kỹ thuật hoặc đàn bò…" aria-label="Tìm kiếm" />
+            </div>
+            <div class="notification-pill">Thông báo</div>
+            <div class="topbar-chip">ROYAL COW FARM</div>
+            
+            <button class="button button-secondary" type="button" onclick="logout()">Đăng xuất</button>
+          </div>
+        </header>
+
+        <div id="page-dashboard" class="page-panel">
+          <section class="section-row">
+            <div class="card">
+              <div class="card-title">Lịch tiêm vắc-xin hôm nay</div>
+              <p class="card-subtitle">Danh sách công việc kỹ thuật cần hoàn thành trên khu trang trại.</p>
+              <div class="schedule-card mt-8">
+                <p class="schedule-title">Ca sáng</p>
+                <ul class="schedule-list">
+                  <li>
+                    <span>Tiêm mũi 1 - Angus batch A</span>
+                    <strong>08:00</strong>
+                  </li>
+                  <li>
+                    <span>Kiểm tra sức khỏe - Brahman</span>
+                    <strong>10:30</strong>
+                  </li>
+                  <li>
+                    <span>Ghi nhận cân nặng - Local</span>
+                    <strong>13:15</strong>
+                  </li>
+                </ul>
+              </div>
+            </div>
+
+            <aside class="card">
+              <p class="section-title">Giống nổi bật</p>
+              <div class="breed-grid" id="staffBreedGrid"></div>
+            </aside>
+          </section>
+
+          <div class="metric-grid mt-6">
+            <article class="metric-card">
+              <div>
+                <p class="metric-label">Đàn bò</p>
+                <p id="staffTotalCattle" class="metric-value">1.700 con bò</p>
+              </div>
+              <p class="metric-note">Dữ liệu số lượng Đàn hiện tại cho hoạt động kỹ thuật.</p>
+            </article>
+            <article class="metric-card">
+              <div>
+                <p class="metric-label">Angus có sẵn</p>
+                <p id="staffAngusCount" class="metric-value">560 con bò</p>
+              </div>
+              <p class="metric-note">Số lượng đàn Angus đang chăm sóc.</p>
+            </article>
+          </div>
+
+          <section class="card mt-6">
+            <div class="flex items-center justify-between gap-4 mb-6">
+              <div>
+                <p class="section-title">Dữ liệu kỹ thuật</p>
+                <h2 class="card-title">Bảng quản lý Tag và sức khỏe</h2>
+              </div>
+              <button class="button button-primary" type="button" onclick="openLivestockModal()">Thêm bản ghi mới</button>
+            </div>
+
+            <div class="overflow-x-auto">
+              <table class="table table-fleet">
+                <thead>
+                  <tr>
+                    <th>Tag ID</th>
+                    <th>Giống</th>
+                    <th>Cân nặng</th>
+                    <th>Trạng thái sức khỏe</th>
+                    <th>Hành động</th>
+                  </tr>
+                </thead>
+                <tbody id="fleetTableBody"></tbody>
+              </table>
+            </div>
+          </section>
+        </div>
+
+        <section id="page-cattle" class="card hidden page-panel">
+          <div class="flex items-center justify-between gap-4 mb-6">
+            <div>
+              <p class="section-title">Đàn bò</p>
+              <h2 class="card-title">Thông tin đàn bò hiện trường</h2>
+            </div>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Tag ID</th>
+                  <th>Giống</th>
+                  <th>Tình trạng</th>
+                  <th>Ngày kiểm tra</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="table-row">
+                  <td>TAG-002</td>
+                  <td>Angus</td>
+                  <td>Tốt</td>
+                  <td>30/05/2026</td>
+                </tr>
+                <tr class="table-row">
+                  <td>TAG-057</td>
+                  <td>Brahman</td>
+                  <td>Cần theo dõi</td>
+                  <td>29/05/2026</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="page-vaccine" class="card hidden page-panel">
+          <div class="flex items-center justify-between gap-4 mb-6">
+            <div>
+              <p class="section-title">Lịch tiêm vắc xin</p>
+              <h2 class="card-title">Quản lý tiêm chủng cho đàn bò</h2>
+            </div>
+            <button class="button button-primary" type="button" onclick="openVaccineModal()">Thêm lịch tiêm</button>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Mã vắc xin</th>
+                  <th>Tag bò</th>
+                  <th>Tên vắc xin</th>
+                  <th>Ngày tiêm</th>
+                  <th>Hạn tiêm tiếp</th>
+                  <th>Trạng thái</th>
+                  <th>Hành động</th>
+                </tr>
+              </thead>
+              <tbody id="vaccineTableBody"></tbody>
+            </table>
+          </div>
+        </section>
+
+        <section id="page-orders" class="card hidden page-panel">
+          <div class="flex items-center justify-between gap-4 mb-6">
+            <div>
+              <p class="section-title">Đơn hàng</p>
+              <h2 class="card-title">Xem và đề xuất hợp đồng</h2>
+            </div>
+            <button class="button button-primary" type="button" onclick="openStaffOrderModal()">Đề xuất hợp đồng</button>
+          </div>
+          <div class="overflow-x-auto mb-6">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Đơn hàng</th>
+                  <th>Khách hàng</th>
+                  <th>Giống bò</th>
+                  <th>Ngày giao dự kiến</th>
+                  <th>Trạng thái</th>
+                  <th>Giá trị</th>
+                </tr>
+              </thead>
+              <tbody id="staffOrdersTableBody"></tbody>
+            </table>
+          </div>
+          <p class="metric-note mb-4">Staff chỉ xem hợp đồng hiện tại và có thể gửi đề xuất mới. Quyền xóa/phê duyệt thuộc Admin.</p>
+          <div class="metric-grid">
+            <article class="metric-card">
+              <p class="metric-label">Đơn hiện tại</p>
+              <p id="staffOrderCount" class="metric-value">0</p>
+            </article>
+            <article class="metric-card">
+              <p class="metric-label">Đề xuất mới</p>
+              <p id="staffProposals" class="metric-value">0</p>
+            </article>
+          </div>
+        </section>
+
+        <section id="page-partners" class="card hidden page-panel">
+          <div class="flex items-center justify-between gap-4 mb-6">
+            <div>
+              <p class="section-title">Đối tác</p>
+              <h2 class="card-title">Giao tiếp with đội ngũ và chuỗi phân phối</h2>
+            </div>
+          </div>
+          <div class="metric-grid">
+            <article class="metric-card">
+              <p class="metric-label">Đội thú y</p>
+              <p class="metric-value">3</p>
+            </article>
+            <article class="metric-card">
+              <p class="metric-label">Đối tác phụ</p>
+              <p class="metric-value">5</p>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <div id="breedAlert" class="breed-alert" role="status" aria-live="polite"></div>
+
+    <div id="livestockModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal-panel staff">
+        <div class="modal-header">
+          <h2 class="modal-title">Thêm / Chỉnh sửa bản ghi</h2>
+          <button class="button-ghost" type="button" onclick="closeLivestockModal()">Đóng</button>
+        </div>
+        <div class="modal-body staff">
+          <div class="form-group">
+            <label class="form-label" for="tagInput">Tag ID</label>
+            <input id="tagInput" class="input" type="text" placeholder="TAG-xxx" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="breedInput">Giống</label>
+            <input id="breedInput" class="input" type="text" placeholder="Angus, Brahman, Local" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="weightInput">Cân nặng</label>
+            <input id="weightInput" class="input" type="text" placeholder="612 kg" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="healthInput">Trạng thái sức khỏe</label>
+            <input id="healthInput" class="input" type="text" placeholder="Rất tốt" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="button-secondary" type="button" onclick="closeLivestockModal()">Hủy</button>
+          <button class="button-primary" type="button" onclick="saveLivestockRecord()">Lưu</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="staffOrderModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal-panel staff">
+        <div class="modal-header">
+          <h2 class="modal-title">Đề xuất hợp đồng mới</h2>
+          <button class="button-ghost" type="button" onclick="closeStaffOrderModal()">Đóng</button>
+        </div>
+        <div class="modal-body staff">
+          <div class="form-group">
+            <label class="form-label" for="staffOrderCustomer">Khách hàng</label>
+            <input id="staffOrderCustomer" class="input" type="text" placeholder="Tên khách hàng" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="staffOrderAmount">Giá trị hợp đồng</label>
+            <input id="staffOrderAmount" class="input" type="text" placeholder="Ví dụ: 1.2 tỷ hoặc 420 triệu" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="staffOrderBreed">Giống bò cần mua</label>
+            <select id="staffOrderBreed" class="input">
+              <option value="">-- Chọn giống --</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="staffOrderDeliveryDate">Ngày dự kiến giao</label>
+            <input id="staffOrderDeliveryDate" class="input" type="date" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="staffOrderNote">Ghi chú đề xuất</label>
+            <textarea id="staffOrderNote" class="input" rows="3" placeholder="Ghi chú cho Admin"></textarea>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="button-secondary" type="button" onclick="closeStaffOrderModal()">Hủy</button>
+          <button class="button-primary" type="button" onclick="saveStaffOrderProposal()">Gửi đề xuất</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="vaccineModal" class="modal-backdrop" aria-hidden="true">
+      <div class="modal-panel staff">
+        <div class="modal-header">
+          <h2 class="modal-title">Thêm / Chỉnh sửa lịch tiêm</h2>
+          <button class="button-ghost" type="button" onclick="closeVaccineModal()">Đóng</button>
+        </div>
+        <div class="modal-body staff">
+          <div class="form-group">
+            <label class="form-label" for="vaccineModalCattleTag">Tag bò</label>
+            <input id="vaccineModalCattleTag" class="input" type="text" placeholder="TAG-xxx" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="vaccineModalName">Tên vắc xin</label>
+            <input id="vaccineModalName" class="input" type="text" placeholder="Tên vắc xin" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="vaccineModalDate">Ngày đã tiêm</label>
+            <input id="vaccineModalDate" class="input" type="date" />
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="vaccineModalNextDate">Hạn tiêm tiếp *</label>
+            <input id="vaccineModalNextDate" class="input" type="date" />
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="button-secondary" type="button" onclick="closeVaccineModal()">Hủy</button>
+          <button class="button-primary" type="button" onclick="saveVaccineRecord()">Lưu</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function ensureStaffSession() {
+        const session = localStorage.getItem('royalCowSession');
+        if (session) {
+          try {
+            const parsed = JSON.parse(session);
+            if (parsed?.role && parsed.role !== 'staff' && parsed.role !== 'admin') {
+              window.location.href = '../index.html';
+            }
+          } catch (e) { /* ignore */ }
+        }
+      }
+
+      function renderVaccineTable() {
+        const tbody = document.getElementById('vaccineTableBody');
+        if (!tbody) return;
+        tbody.innerHTML = RoyalCowDB.vaccineSchedules
+          .map((v, index) => `
+            <tr class="table-row" data-index="${index}">
+              <td>${v.id}</td>
+              <td>${v.cattleTag}</td>
+              <td>${v.vaccineName}</td>
+              <td>${v.vaccinationDate || '—'}</td>
+              <td>${v.nextDueDate || '—'}</td>
+              <td>${v.status}</td>
+              <td class="table-actions">
+                <button class="action-pill edit" type="button" onclick="editVaccineRecord(${index})">Sửa</button>
+              </td>
+            </tr>
+          `)
+          .join('');
+      }
+
+      function openVaccineModal() {
+        document.getElementById('vaccineModalCattleTag').value = '';
+        document.getElementById('vaccineModalName').value = '';
+        document.getElementById('vaccineModalDate').value = '';
+        document.getElementById('vaccineModalNextDate').value = '';
+        document.getElementById('vaccineModal').dataset.editIndex = '';
+        document.getElementById('vaccineModal').classList.add('show');
+        document.getElementById('vaccineModal').setAttribute('aria-hidden', 'false');
+      }
+
+      function closeVaccineModal() {
+        document.getElementById('vaccineModal').classList.remove('show');
+        document.getElementById('vaccineModal').setAttribute('aria-hidden', 'true');
+      }
+
+      function editVaccineRecord(index) {
+        const v = RoyalCowDB.vaccineSchedules[index];
+        if (!v) return;
+        document.getElementById('vaccineModalCattleTag').value = v.cattleTag;
+        document.getElementById('vaccineModalName').value = v.vaccineName;
+        document.getElementById('vaccineModalDate').value = v.vaccinationDate || '';
+        document.getElementById('vaccineModalNextDate').value = v.nextDueDate || '';
+        document.getElementById('vaccineModal').dataset.editIndex = index;
+        document.getElementById('vaccineModal').classList.add('show');
+        document.getElementById('vaccineModal').setAttribute('aria-hidden', 'false');
+      }
+
+      function saveVaccineRecord() {
+        const cattleTag = document.getElementById('vaccineModalCattleTag').value.trim();
+        const vaccineName = document.getElementById('vaccineModalName').value.trim();
+        const vaccinationDate = document.getElementById('vaccineModalDate').value.trim();
+        const nextDueDate = document.getElementById('vaccineModalNextDate').value.trim();
+        if (!cattleTag || !vaccineName || !nextDueDate) {
+          showBreedInfo('Vui lòng nhập Tag bò, tên vắc xin và hạn tiêm tiếp.');
+          return;
+        }
+        const editIndex = document.getElementById('vaccineModal').dataset.editIndex;
+        if (editIndex !== '') {
+          RoyalCowDB.updateVaccineSchedule(Number(editIndex), { cattleTag, vaccineName, vaccinationDate, nextDueDate });
+          showBreedInfo('Đã cập nhật lịch tiêm.');
+        } else {
+          RoyalCowDB.addVaccineSchedule({ cattleTag, vaccineName, vaccinationDate, nextDueDate });
+          showBreedInfo('Đã thêm lịch tiêm mới.');
+        }
+        closeVaccineModal();
+        renderVaccineTable();
+      }
+
+      function showBreedInfo(breedOrMessage) {
+        const found = RoyalCowDB.breeds.find(
+          (item) => item.name.toLowerCase() === breedOrMessage.toLowerCase()
+        );
+        const message = found ? found.subtitle : breedOrMessage;
+        const alertElement = document.getElementById('breedAlert');
+        alertElement.textContent = message;
+        alertElement.classList.add('show');
+        setTimeout(() => alertElement.classList.remove('show'), 3800);
+      }
+
+      function renderStaffBreedCards() {
+        const grid = document.getElementById('staffBreedGrid');
+        grid.innerHTML = RoyalCowDB.breeds
+          .map(
+            (breed) => `
+              <button type="button" class="breed-card" data-breed="${breed.name}">
+                <p class="breed-name">${breed.name}</p>
+                <p class="breed-subtitle">${breed.subtitle}</p>
+              </button>
+            `
+          )
+          .join('');
+        grid.querySelectorAll('.breed-card').forEach((card) => {
+          card.addEventListener('click', () => showBreedInfo(card.dataset.breed));
+        });
+      }
+
+      function renderStaffFleetRecords() {
+        const tbody = document.getElementById('fleetTableBody');
+        tbody.innerHTML = RoyalCowDB.cattleRecords
+          .map(
+            (record, index) => `
+              <tr class="table-row" data-index="${index}">
+                <td>${record.tag}</td>
+                <td>${record.breed}</td>
+                <td>${record.weight}</td>
+                <td>${record.health}</td>
+                <td class="table-actions">
+                  <button class="action-pill edit" type="button" onclick="editFleetRecord(this)">Sửa</button>
+                </td>
+              </tr>
+            `
+          )
+          .join('');
+      }
+
+      function renderStaffData() {
+        document.getElementById('staffTotalCattle').textContent = `${RoyalCowDB.cattleCounts.total} con bò`;
+        document.getElementById('staffAngusCount').textContent = `${RoyalCowDB.cattleCounts.Angus || 0} con bò`;
+        document.getElementById('staffOrderCount').textContent = RoyalCowDB.orders.length;
+        document.getElementById('staffProposals').textContent = RoyalCowDB.orders.filter((order) => order.proposedByStaff).length;
+        renderStaffBreedCards();
+        renderStaffFleetRecords();
+        renderStaffOrders();
+        renderVaccineTable();
+      }
+
+      function renderStaffOrders() {
+        const tbody = document.getElementById('staffOrdersTableBody');
+        tbody.innerHTML = RoyalCowDB.orders
+          .map(
+            (order) => {
+              const breedDisplay = order.breedRequired || '-';
+              const dateDisplay = order.estimatedDeliveryDate ? new Date(order.estimatedDeliveryDate).toLocaleDateString('vi-VN') : '-';
+              return `
+                <tr class="table-row">
+                  <td>${order.id}</td>
+                  <td>${order.customer}</td>
+                  <td>${breedDisplay}</td>
+                  <td>${dateDisplay}</td>
+                  <td>${order.status}</td>
+                  <td>${formatRevenueReadable ? formatRevenueReadable(order.amount) : order.amount}</td>
+                </tr>
+              `;
+            }
+          )
+          .join('');
+      }
+
+      function openStaffOrderModal() {
+        const breedSelect = document.getElementById('staffOrderBreed');
+        breedSelect.innerHTML = '<option value="">-- Chọn giống --</option>' +
+          RoyalCowDB.breeds.map(b => `<option value="${b.name}">${b.name}</option>`).join('');
+        
+        document.getElementById('staffOrderCustomer').value = '';
+        document.getElementById('staffOrderAmount').value = '';
+        document.getElementById('staffOrderBreed').value = '';
+        document.getElementById('staffOrderDeliveryDate').value = '';
+        document.getElementById('staffOrderNote').value = '';
+        document.getElementById('staffOrderModal').classList.add('show');
+        document.getElementById('staffOrderModal').setAttribute('aria-hidden', 'false');
+      }
+
+      function closeStaffOrderModal() {
+        document.getElementById('staffOrderModal').classList.remove('show');
+        document.getElementById('staffOrderModal').setAttribute('aria-hidden', 'true');
+      }
+
+      function saveStaffOrderProposal() {
+        const customer = document.getElementById('staffOrderCustomer').value.trim();
+        const amountText = document.getElementById('staffOrderAmount').value.trim();
+        const breedRequired = document.getElementById('staffOrderBreed').value;
+        const estimatedDeliveryDate = document.getElementById('staffOrderDeliveryDate').value;
+        const note = document.getElementById('staffOrderNote').value.trim();
+        if (!customer || !amountText) {
+          showBreedInfo('Vui lòng nhập khách hàng và giá trị hợp đồng.');
+          return;
+        }
+        const amount = parseRevenueInputStaff(amountText);
+        RoyalCowDB.addOrder({ customer, amount, status: 'Đề xuất', proposedByStaff: true, breedRequired, estimatedDeliveryDate, note });
+        closeStaffOrderModal();
+        renderStaffData();
+        showBreedInfo('Đã gửi đề xuất hợp đồng đến Admin.');
+      }
+
+      function parseRevenueInputStaff(value) {
+        const normalized = value
+          .toLowerCase()
+          .replace(/\./g, '')
+          .replace(/,/g, '')
+          .replace(/đ|vnđ|₫/g, '')
+          .trim();
+
+        if (/tỷ/.test(normalized)) {
+          const amount = Number(normalized.replace(/[^0-9\.]/g, ''));
+          return Number.isNaN(amount) ? 0 : Math.round(amount * 1000000000);
+        }
+        if (/triệu/.test(normalized)) {
+          const amount = Number(normalized.replace(/[^0-9\.]/g, ''));
+          return Number.isNaN(amount) ? 0 : Math.round(amount * 1000000);
+        }
+
+        const digits = normalized.replace(/[^0-9]/g, '');
+        return Number(digits) || 0;
+      }
+
+      // HÀM ĐĂNG XUẤT CHUẨN XÁC: Lùi ra một thư mục để gọi file index.html bên ngoài
+      function logout() {
+        localStorage.removeItem('royalCowSession');
+        window.location.href = '../index.html';
+      }
+
+      ensureStaffSession();
+      renderStaffData();
+
+      function setActivePage(page) {
+        document.querySelectorAll('.page-panel').forEach((panel) => {
+          panel.classList.toggle('hidden', panel.id !== `page-${page}`);
+        });
+        document.querySelectorAll('.nav-item').forEach((item) => {
+          item.classList.toggle('active', item.dataset.page === page);
+        });
+      }
+
+      document.querySelectorAll('.nav-item').forEach((item) => {
+        item.addEventListener('click', (event) => {
+          event.preventDefault();
+          setActivePage(item.dataset.page);
+        });
+      });
+
+      setActivePage('dashboard');
+
+      const livestockModal = document.getElementById('livestockModal');
+      let editingIndex = null;
+
+      function openLivestockModal() {
+        editingIndex = null;
+        document.getElementById('tagInput').value = '';
+        document.getElementById('breedInput').value = '';
+        document.getElementById('weightInput').value = '';
+        document.getElementById('healthInput').value = '';
+        livestockModal.classList.add('show');
+        livestockModal.setAttribute('aria-hidden', 'false');
+      }
+
+      function closeLivestockModal() {
+        livestockModal.classList.remove('show');
+        livestockModal.setAttribute('aria-hidden', 'true');
+      }
+
+      function editFleetRecord(button) {
+        const row = button.closest('tr');
+        editingIndex = Number(row.dataset.index);
+        const cells = row.querySelectorAll('td');
+        document.getElementById('tagInput').value = cells.textContent.trim();
+        document.getElementById('breedInput').value = cells.textContent.trim();
+        document.getElementById('weightInput').value = cells.textContent.trim();
+        document.getElementById('healthInput').value = cells.textContent.trim();
+        livestockModal.classList.add('show');
+        livestockModal.setAttribute('aria-hidden', 'false');
+      }
+
+      function saveLivestockRecord() {
+        const tag = document.getElementById('tagInput').value.trim();
+        const breed = document.getElementById('breedInput').value.trim();
+        const weight = document.getElementById('weightInput').value.trim();
+        const health = document.getElementById('healthInput').value.trim();
+        if (!tag || !breed || !weight || !health) {
+          showBreedInfo('Vui lòng điền đầy đủ thông tin.');
+          return;
+        }
+
+        const record = {
+          tag,
+          breed,
+          weight,
+          health,
+          status: 'Đã ghi nhận',
+          inspected: new Intl.DateTimeFormat('vi-VN').format(new Date())
+        };
+
+        if (editingIndex !== null && editingIndex >= 0) {
+          RoyalCowDB.updateRecord(editingIndex, record);
+          showBreedInfo('Đã cập nhật bản ghi kỹ thuật.');
+        } else {
+          RoyalCowDB.addRecord(record);
+          showBreedInfo('Đã thêm bản ghi mới thành công.');
+        }
+
+        renderStaffData();
+        closeLivestockModal();
+      }
+    </script>
+  </body>
+</html>
