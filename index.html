@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Quản lý bò hiện đại - Đăng nhập</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="shared/common-style.css" />
+    <style>
+      body {
+        min-height: 100vh;
+        display: grid;
+        place-items: center;
+        background: radial-gradient(circle at top, rgba(16, 185, 129, 0.14), transparent 30%), #020617;
+        color: #e2e8f0;
+      }
+      .login-card {
+        width: min(520px, calc(100% - 32px));
+        border-radius: 28px;
+        background: rgba(15, 23, 42, 0.96);
+        border: 1px solid rgba(148, 163, 184, 0.16);
+        box-shadow: 0 28px 60px rgba(0, 0, 0, 0.26);
+        padding: 36px;
+      }
+      .login-card h1 {
+        margin: 0 0 0.75rem;
+      }
+      .login-card p {
+        color: #a1a6b3;
+      }
+      .form-row {
+        display: grid;
+        gap: 16px;
+        margin-top: 20px;
+      }
+      .input {
+        width: 100%;
+        border-radius: 16px;
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        background: rgba(15, 23, 42, 0.9);
+        padding: 14px 16px;
+        color: #e2e8f0;
+        outline: none;
+      }
+      .input:focus {
+        border-color: rgba(16, 185, 129, 0.4);
+        box-shadow: 0 0 0 4px rgba(16, 185, 129, 0.08);
+      }
+      .role-select {
+        border-radius: 16px;
+        background: rgba(15, 23, 42, 0.9);
+        border: 1px solid rgba(148, 163, 184, 0.18);
+        color: #e2e8f0;
+        padding: 14px 16px;
+        outline: none;
+      }
+      .login-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 18px;
+      }
+      .hint-box {
+        background: rgba(16, 185, 129, 0.08);
+        border: 1px solid rgba(16, 185, 129, 0.24);
+        border-radius: 18px;
+        padding: 16px;
+        font-size: 0.95rem;
+        color: #d1fae5;
+      }
+      .error-text {
+        color: #fca5a5;
+        margin-top: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <article class="login-card">
+      <div class="mb-6">
+        <p class="section-title">ROYAL COW FARM</p>
+        <h1 class="brand-title">Quản lý bò hiện đại</h1>
+        <p>Đăng nhập bằng tài khoản Admin hoặc Staff để truy cập bảng điều khiển tương ứng.</p>
+      </div>
+
+      <form id="loginForm" class="form-row" onsubmit="return handleLogin(event)">
+        <div>
+          <label class="text-xs" for="emailInput">Email</label>
+          <input id="emailInput" class="input" type="email" placeholder="admin@gmail.com hoặc staf@gmail.com" required />
+        </div>
+        <div>
+          <label class="text-xs" for="passwordInput">Mật khẩu</label>
+          <input id="passwordInput" class="input" type="password" placeholder="Nhập mật khẩu" required />
+        </div>
+        <div class="login-footer">
+          <button class="button button-primary" type="submit">Đăng nhập</button>
+        </div>
+        <p id="errorMessage" class="error-text" aria-live="polite"></p>
+      </form>
+    </article>
+
+    <script>
+      function handleLogin(event) {
+        event.preventDefault();
+        const email = document.getElementById('emailInput').value.trim().toLowerCase();
+        const password = document.getElementById('passwordInput').value.trim();
+        const errorMessage = document.getElementById('errorMessage');
+        const credentials = {
+          'admin@gmail.com': 'admin123',
+          'staf@gmail.com': 'staff123'
+        };
+        const redirects = {
+          'admin@gmail.com': 'admin/dashboard.html',
+          'staf@gmail.com': 'staff/dashboard.html'
+        };
+        const roles = {
+          'admin@gmail.com': 'admin',
+          'staf@gmail.com': 'staff'
+        };
+        if (credentials[email] === password) {
+          localStorage.setItem('royalCowSession', JSON.stringify({
+            email,
+            role: roles[email],
+            expires: Date.now() + 1000 * 60 * 60 * 4
+          }));
+          window.location.href = redirects[email];
+          return true;
+        }
+        errorMessage.textContent = 'Email hoặc mật khẩu không đúng. Vui lòng thử lại.';
+        return false;
+      }
+    </script>
+  </body>
+</html>

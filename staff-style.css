@@ -1,0 +1,237 @@
+/* --- TRANG TRẠI BÒ ROYAL COW FARM - FILE STYLE CHUẨN ĐỒNG BỘ DARK MODE --- */
+
+/* Khung bọc layout chính */
+.app-shell {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 32px;
+  padding: 24px;
+  min-height: 100vh;
+  background-color: #0f172a; /* Nền tối sâu đồng bộ hệ thống */
+}
+
+/* Sidebar bên trái */
+.sidebar {
+  background: #111827 !important;
+  border: 1px solid rgba(148, 163, 184, 0.1) !important;
+  border-radius: 20px;
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: calc(100vh - 48px);
+  position: sticky;
+  top: 24px;
+}
+
+/* Thanh định hướng chính của nội dung bên phải */
+.page-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Thẻ card nội dung tổng quát */
+.card {
+  background: #111827 !important;
+  border: 1px solid rgba(148, 163, 184, 0.08) !important;
+  border-radius: 20px !important;
+  padding: 24px !important;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+}
+
+/* --- CĂNG CHỈNH LẠI CHỮ & TIÊU ĐỀ --- */
+.brand-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 4px 0 0 0;
+  letter-spacing: -0.5px;
+}
+
+.section-title {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  color: #10b981; /* Xanh lá đặc trưng nông nghiệp công nghệ cao */
+  margin: 0 0 4px 0;
+}
+
+.card-title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #f8fafc;
+  margin: 0 0 6px 0;
+}
+
+.card-subtitle {
+  font-size: 0.85rem;
+  color: #94a3b8;
+  margin: 0 0 20px 0;
+}
+
+/* Nhãn chip vai trò Staff */
+.role-pill {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #3b82f6;
+  background: rgba(59, 130, 246, 0.12);
+  padding: 4px 12px;
+  border-radius: 8px;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  margin: 0;
+}
+
+/* Khung thống kê chỉ số */
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.metric-card {
+  background: #111827;
+  border: 1px solid rgba(148, 163, 184, 0.08);
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 140px;
+}
+
+.metric-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #94a3b8;
+  margin: 0 0 6px 0;
+}
+
+.metric-value {
+  font-size: 1.85rem;
+  font-weight: 800;
+  color: #ffffff;
+  margin: 0;
+}
+
+.metric-note {
+  font-size: 0.75rem;
+  color: #64748b;
+  margin: 8px 0 0 0;
+}
+
+/* Lịch tiêm vắc xin */
+.schedule-card {
+  background: rgba(16, 185, 129, 0.02);
+  border: 1px solid rgba(16, 185, 129, 0.15);
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.schedule-title {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #10b981;
+  margin: 0 0 12px 0;
+}
+
+.schedule-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 10px;
+}
+
+.schedule-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 14px;
+  background: #1f2937;
+  border: 1px solid rgba(148, 163, 184, 0.06);
+  border-radius: 12px;
+  font-size: 0.85rem;
+}
+
+.schedule-list li span {
+  color: #e2e8f0;
+  font-weight: 500;
+}
+
+.schedule-list li strong {
+  color: #fbbf24;
+  background: rgba(251, 191, 36, 0.1);
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+}
+
+/* Bảng dữ liệu chuẩn tối thoáng đãng */
+.table-fleet {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 8px;
+}
+
+.table-fleet th {
+  text-align: left;
+  padding: 14px 16px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #64748b;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+}
+
+.table-fleet tbody tr {
+  background: transparent;
+  transition: all 0.2s ease;
+}
+
+.table-fleet tbody tr:hover {
+  background: rgba(148, 163, 184, 0.03);
+}
+
+.table-fleet td {
+  padding: 16px;
+  font-size: 0.9rem;
+  color: #e2e8f0;
+  border-bottom: 1px solid rgba(148, 163, 184, 0.05);
+}
+
+/* Nút hành động trong bảng */
+.action-pill.edit {
+  background: rgba(59, 130, 246, 0.1) !important;
+  color: #60a5fa !important;
+  border: 1px solid rgba(59, 130, 246, 0.2) !important;
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.action-pill.edit:hover {
+  background: #2563eb !important;
+  color: #ffffff !important;
+}
+
+/* Nút Đăng xuất ở thanh bar */
+.topbar-right .button-secondary {
+  background: rgba(239, 68, 68, 0.1) !important;
+  color: #f87171 !important;
+  border: 1px solid rgba(239, 68, 68, 0.2) !important;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+
+.topbar-right .button-secondary:hover {
+  background: #dc2626 !important;
+  color: #ffffff !important;
+}
